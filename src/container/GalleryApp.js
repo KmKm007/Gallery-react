@@ -8,10 +8,12 @@ class GalleryApp extends React.Component {
     super(props)
     this.state = {
       isInitial: true,
-      colors: null,
+      data: null,
       positions: null,
       degs: null,
-      amount: 10
+      isInverses: null,
+      amount: 10,
+      activeIndex: 0
     }
   }
 
@@ -20,29 +22,33 @@ class GalleryApp extends React.Component {
   }
 
   componentDidMount () {
-    const positions = this.getPostions(false)
-    const degs = this.getDegs(false)
-    setTimeout(() => {
-      this.setState({
-        positions,
-        degs
-      })
-    }, 0)
+    const container = this.refs.container
+    const width = container.scrollWidth
+    const height = container.scrollHeight
+    this.Constant = {
+      width,
+      height
+    }
+    setTimeout(this.reverse.bind(this), 0)
+  }
+
+  componentDidUpdate (prePrps, preState) {
+    if (preState.activeIndex !== this.state.activeIndex) {
+      this.reverse()
+    }
   }
 
   initial (amount = 10) {
-    const colors = this.getColors()
+    const data = this.getData()
     const positions = this.getPostions()
     const degs = this.getDegs()
+    const isInverses = this.getInverse()
     this.setState({
-      colors,
+      data,
       positions,
-      degs
+      degs,
+      isInverses
     })
-  }
-
-  createColor () {
-    return parseInt(Math.random() * 999999)
   }
 
   createPosition () {
@@ -57,29 +63,24 @@ class GalleryApp extends React.Component {
   }
 
   getPostions (isInitial = true) {
-    const amount = this.state.amount
+    const { amount, activeIndex } = this.state
     const createPosition = this.createPosition
     const positions = []
-    if (!isInitial) {
-      for (let i = 0; i < amount; i++) {
-        positions.push(createPosition())
-      }
-    } else {
-      for (let i = 0; i < amount; i++) {
+    for (let i = 0; i < amount; i++) {
+      if (isInitial) {
         positions.push([0, 0])
+      } else if (activeIndex === i) {
+        positions.push([this.Constant.width / 2 - 150, this.Constant.height / 2 - 160])
+      } else {
+        positions.push(createPosition())
       }
     }
     return positions
   }
 
-  getColors () {
-    const amount = this.state.amount
-    const createColor = this.createColor
-    const colors = []
-    for (let i = 0; i < amount; i++) {
-      colors.push(createColor())
-    }
-    return colors
+  getData () {
+    const data = require('../data/imageDatas.json')
+    return data
   }
 
   getDegs (isinitial = true) {
@@ -98,16 +99,65 @@ class GalleryApp extends React.Component {
     return degs
   }
 
+  getInverse () {
+    const amount = this.state.amount
+    const isInverses = []
+    for (let i = 0; i < amount; i++) {
+      isInverses.push(false)
+    }
+    return isInverses
+  }
+
+  onIndexChange = index => {
+    const activeIndex = this.state.activeIndex
+    if (activeIndex === index) {
+      const isInverses = [ ...this.state.isInverses ]
+      isInverses[index] = !isInverses[index]
+      this.setState({
+        isInverses
+      })
+    } else {
+      this.setState({
+        activeIndex: index
+      })
+    }
+  }
+
+  // 重新布局
+  reverse () {
+    const positions = this.getPostions(false)
+    const degs = this.getDegs(false)
+    this.setState({
+      positions,
+      degs
+    })
+  }
+
   render () {
-    const { amount, colors, positions, degs } = this.state
+    const { amount, data, positions, degs, isInverses, activeIndex } = this.state
     let elements = []
     for (let i = 0; i < amount; i++) {
-      elements.push(<Element color={colors[i]} position={positions[i]} deg={degs[i]} key={i}/>)
+      elements.push((
+        <Element
+          position={positions[i]}
+          data={data[i]}
+          deg={degs[i]}
+          key={i}
+          index={i}
+          handleClick={this.onIndexChange.bind(this, i)}
+          isInverse={isInverses[i]}
+          isCenter={activeIndex === i}
+        />
+      ))
     }
     const content = elements ? (
-      <div className="container">
+      <div className="container" ref="container">
         {elements}
-        <Nav amount={amount}/>
+        <Nav
+          amount={amount}
+          activeIndex={activeIndex}
+          handleIndexChange={this.onIndexChange}
+        />
       </div>
     ) : null
     return content

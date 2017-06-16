@@ -1,17 +1,22 @@
 import React from 'react'
+import NavItem from '../component/NavItem'
 
 class Nav extends React.Component {
   render () {
-    const amount = this.props.amount
+    const { amount, activeIndex, handleIndexChange } = this.props
     const navItems = []
     for (let i = 0; i < amount; i++) {
       navItems.push((
-        <span className="nav-item" key={i}></span>
+        <NavItem
+          key={i}
+          isActive={activeIndex === i}
+          handleClick={ () => handleIndexChange(i) }
+        />
       ))
     }
     return (
       <div className="nav">
-
+        {navItems}
       </div>
     )
   }
