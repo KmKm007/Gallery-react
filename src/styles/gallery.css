@@ -1,9 +1,25 @@
 .element {
-  width: 400px;
-  height: 400px;
+  width: 300px;
+  height: 300px;
   position: absolute;
+  transition: left .5s ease-in-out, top .5s ease-in-out, transform .5s ease-in-out;
 }
 
 .container {
   position: relative;
+}
+
+.nav {
+  display: flex;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 50px;
+}
+
+.nav-item {
+  background-color: #aaa;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
 }
