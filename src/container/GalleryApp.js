@@ -22,7 +22,7 @@ class GalleryApp extends React.Component {
     width: document.body.scrollWidth,
     height: document.body.scrollHeight,
     eleWidth: 320,
-    eleHeight: 320
+    eleHeight: 360
   }
 
   componentWillMount () {
@@ -68,11 +68,7 @@ class GalleryApp extends React.Component {
     let poiX = parseInt(getRandom(0, width))
     let poiY
     if (poiX > (halfWidth - eleWidth) && poiX < (halfWidth + eleWidth)) {
-      if (getRandom(0, 1) > 0.5) {
-        poiY = getRandom(0, halfHeight - eleHeight)
-      } else {
-        poiY = getRandom(halfHeight + eleHeight, height)
-      }
+      poiY = getRandom(0, halfHeight - eleHeight)
     } else {
       poiY = parseInt(getRandom(0, height))
     }

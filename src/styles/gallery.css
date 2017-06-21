@@ -3,7 +3,7 @@
 }
 .element {
   width: 320px;
-  height: 320px;
+  height: 360px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -38,6 +38,7 @@
   border-radius: 50%;
   margin-left: 25px;
   cursor: pointer;
+  transition: transform .5s;
 }
 
 .nav-item-active {
