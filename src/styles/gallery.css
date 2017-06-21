@@ -2,13 +2,15 @@
   box-sizing: border-box;
 }
 .element {
-  padding: 20px 30px;
+  width: 320px;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: #fff;
   position: absolute;
-  transition: left .6s ease-in-out, top .6s ease-in-out, transform .6s ease-in-out;
+  transition: left .5s ease-in-out, top .5s ease-in-out, transform .5s ease-in-out;
   cursor: pointer;
-  padding-bottom: 36px;
-  padding-top: 20px;
   color: #a7a0a2;
   transform-style: preserve-3d;
 }
@@ -16,7 +18,7 @@
 .container {
   position: relative;
   height: 100vh;
-  overflow-y: hidden;
+  overflow: hidden;
   background-color: #cccccc;
 }
 
@@ -55,17 +57,23 @@
 }
 
 .back {
-  transform: rotateY(180deg);
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
+  display: flex;
+  align-items: center;
   background-color: #fff;
   transform: rotateY(180deg) translateZ(1px);
   backface-visibility: hidden;
+  padding: 0 20px;
 }
 
 .figure {
   position: relative;
+}
+
+.front-title {
+  margin-top: 10px;
 }

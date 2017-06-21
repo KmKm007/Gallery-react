@@ -1,6 +1,7 @@
 import React from 'react'
 import Element from '../component/Element'
 import Nav from './Nav'
+import { getRandom } from '../utils/MathUtil'
 import '../styles/gallery.css'
 
 class GalleryApp extends React.Component {
@@ -12,9 +13,16 @@ class GalleryApp extends React.Component {
       positions: null,
       degs: null,
       isInverses: null,
-      amount: 10,
+      amount: 16,
       activeIndex: 0
     }
+  }
+
+  static defaultProps = {
+    width: document.body.scrollWidth,
+    height: document.body.scrollHeight,
+    eleWidth: 320,
+    eleHeight: 320
   }
 
   componentWillMount () {
@@ -52,9 +60,23 @@ class GalleryApp extends React.Component {
   }
 
   createPosition () {
-    const left = Math.random() * 800
-    const top = Math.random() * 400
-    return [left, top]
+    const { width, height, eleWidth, eleHeight } = this.props
+    const halfWidth = width / 2
+    const halfHeight = height / 2
+    const halfEleWidth = eleWidth / 2
+    const halfEleHeight = eleHeight / 2
+    let poiX = parseInt(getRandom(0, width))
+    let poiY
+    if (poiX > (halfWidth - eleWidth) && poiX < (halfWidth + eleWidth)) {
+      if (getRandom(0, 1) > 0.5) {
+        poiY = getRandom(0, halfHeight - eleHeight)
+      } else {
+        poiY = getRandom(halfHeight + eleHeight, height)
+      }
+    } else {
+      poiY = parseInt(getRandom(0, height))
+    }
+    return [poiX - halfEleWidth, poiY - halfEleHeight]
   }
 
   createDeg () {
@@ -64,7 +86,7 @@ class GalleryApp extends React.Component {
 
   getPostions (isInitial = true) {
     const { amount, activeIndex } = this.state
-    const createPosition = this.createPosition
+    const createPosition = this.createPosition.bind(this)
     const positions = []
     for (let i = 0; i < amount; i++) {
       if (isInitial) {
@@ -117,8 +139,10 @@ class GalleryApp extends React.Component {
         isInverses
       })
     } else {
+      const isInverses = this.getInverse()
       this.setState({
-        activeIndex: index
+        activeIndex: index,
+        isInverses
       })
     }
   }

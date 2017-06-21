@@ -22,7 +22,7 @@ class Element extends React.Component {
           <div>
             <img src={require(`../images/${data.fileName}`)}/>
           </div>
-          <div>
+          <div className="front-title">
             {data.title}
           </div>
         </div>
