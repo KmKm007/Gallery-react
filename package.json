@@ -2,7 +2,7 @@
   "name": "gallery",
   "version": "0.1.0",
   "private": true,
-  "homepage" : "https://kmkm007.github.io/gallery-vue/",
+  "homepage" : "https://kmkm007.github.io/gallery-react/",
   "dependencies": {
     "classnames": "^2.2.5",
     "react": "^15.6.1",
