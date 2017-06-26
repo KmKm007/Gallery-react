@@ -1,5 +1,5 @@
 import React from 'react'
-import Element from '../component/Element'
+import ElementContainer from './element-container'
 import Nav from './Nav'
 import { getRandom } from '../utils/MathUtil'
 import '../styles/gallery.css'
@@ -155,31 +155,23 @@ class GalleryApp extends React.Component {
 
   render () {
     const { amount, data, positions, degs, isInverses, activeIndex } = this.state
-    let elements = []
-    for (let i = 0; i < amount; i++) {
-      elements.push((
-        <Element
-          position={positions[i]}
-          data={data[i]}
-          deg={degs[i]}
-          key={i}
-          index={i}
-          handleClick={this.onIndexChange.bind(this, i)}
-          isInverse={isInverses[i]}
-          isCenter={activeIndex === i}
-        />
-      ))
-    }
-    const content = elements ? (
+    const content = (
       <div className="container" ref="container">
-        {elements}
+        <ElementContainer
+          positions={positions}
+          data={data}
+          degs={degs}
+          handleClick={this.onIndexChange}
+          isInverses={isInverses}
+          activeIndex={activeIndex}
+        />
         <Nav
           amount={amount}
           activeIndex={activeIndex}
           handleIndexChange={this.onIndexChange}
         />
       </div>
-    ) : null
+    )
     return content
   }
 }

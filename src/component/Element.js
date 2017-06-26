@@ -3,7 +3,7 @@ import cs from 'classnames'
 
 class Element extends React.Component {
   render () {
-    const { data, position, deg, isInverse, isCenter, handleClick } = this.props
+    const { data, index, position, deg, isInverse, isCenter, handleClick } = this.props
     return (
       <div
         className={cs({
@@ -12,11 +12,11 @@ class Element extends React.Component {
           'center': isCenter
         })}
         style={{
-          left: position[0],
-          top: position[1],
+          left: position[0] + 'px',
+          top: position[1] + 'px',
           transform: isCenter ? '' : `rotate(${deg}deg)`
         }}
-        onClick={handleClick}
+        onClick={() => handleClick(index)}
       >
         <div className="front">
           <div>
