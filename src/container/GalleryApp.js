@@ -19,8 +19,8 @@ class GalleryApp extends React.Component {
   }
 
   static defaultProps = {
-    width: document.body.scrollWidth,
-    height: document.body.scrollHeight,
+    width: window.innerWidth,
+    height: window.innerHeight,
     eleWidth: 320,
     eleHeight: 360
   }
